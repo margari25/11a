@@ -1,3 +1,15 @@
 body {
-    background: gainsboro;
+        background-color: grey;
+        color: white;
+     }
+
+form {
+    display: flex;
+     justify-content: center;
+      }
+
+note-input button {
+            background-color: blue;
+            min-width: 86px;
+            max-width: 110px;
 }

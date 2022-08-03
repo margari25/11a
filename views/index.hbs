@@ -1,1 +1,24 @@
-<h1>To-do list</h1>
+{{#with model}}
+<div id="title-container">
+    <h1>
+        {{title}}
+    </h1>
+</div>
+<hr />
+<main>
+    <form id="note-input">
+        <input type="tegetxt" name="note" placeholder="Enter a new note here!" />
+        <button type="submit">Save</button>
+    </form>
+    <section>
+        {{#each notes}}
+        <div>
+            <span>{{this}}</span>
+            <i class="fa-thin fa-pen-field"></i>
+            <i class="fa-thin fa-trash-plus"></i>
+        </div>
+
+        {{/each}}
+    </section>
+</main>
+{{/with}}
