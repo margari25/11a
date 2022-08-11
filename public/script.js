@@ -3,13 +3,13 @@ const savedText = {}
 
 
 function deleteNote(id) {
-    fetch(`/?id=${id}`, {method: 'DELETE'})
+    fetch(`/?id=${id}`, { method: 'DELETE' })
         .then(res => window.location = res.url);
 }
 
 function editNote(id, clickedButton) {
     const elements = getNoteElements(id, clickedButton);
-    const {container, noteText} = elements
+    const { container, noteText } = elements
     savedText[id] = noteText; //save initial element to memory
 
     const input = createNoteEditInput(noteText.innerText)
@@ -20,22 +20,24 @@ function editNote(id, clickedButton) {
 
 function saveEdit(id, clickedButton) {
     const elements = getNoteElements(id, clickedButton);
-    const {container, noteEdit, noteText} = elements;
-    restoreNoteTextElement(elements); 
+    const { container, noteEdit, noteText } = elements;
+    restoreNoteTextElement(elements);
     noteText.innerText = noteEdit.value; // switch input and text, SAVE input
 
     enableButtonGroup(container, 'standard');
 
-    fetch('/', {method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({id, note: noteEdit.value})}
+    fetch('/', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, note: noteEdit.value })
+    }
     )
 }
 
 function undoEdit(id, clickedButton) {
     const elements = getNoteElements(id, clickedButton);
-    const {container} = elements;
-    restoreNoteTextElement(elements); 
+    const { container } = elements;
+    restoreNoteTextElement(elements);
     // switch input and text, don't save input
     enableButtonGroup(container, 'standard');
 }
@@ -53,7 +55,7 @@ function createNoteEditInput(initialText) {
 function getNoteElements(id, clickedButton) {
     const container = containerOfButton(clickedButton);
     const noteEdit = container.querySelector('.note-edit');
-    if(noteEdit) {
+    if (noteEdit) {
         return {
             container,
             noteEdit,
@@ -72,14 +74,14 @@ function containerOfButton(buttonElement) {
 }
 
 function restoreNoteTextElement(elements) {
-    const {container, noteEdit, noteText} = elements;
+    const { container, noteEdit, noteText } = elements;
 
     container.replaceChild(noteText, noteEdit);
 }
 
 function enableButtonGroup(container, groupClass) {
-    container.querySelectorAll('.buttons>button') 
-             .forEach(button => button.classList.add('hidden'));//hide all buttons
+    container.querySelectorAll('.buttons>button')
+        .forEach(button => button.classList.add('hidden'));//hide all buttons
     container.querySelectorAll(`.${groupClass}`)
-             .forEach(button => button.classList.remove('hidden'));//unhide only required buttons
+        .forEach(button => button.classList.remove('hidden'));//unhide only required buttons
 }
